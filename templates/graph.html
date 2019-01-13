@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>DataViz</title>
+        <style type="text/css">
+            #viz {
+                width: 1800px;
+                height: 900px;
+            }
+        </style>
+        <script src="static/neovis.js"></script>
+    </head>   
+    <script>
+        function draw() {
+            var config = {
+                container_id: "viz",
+                server_url: "bolt://172.23.1.253:7687",
+                server_user: "neo4j",
+                server_password: "password",
+                labels: {
+                    "Event": {
+                        caption: "id",
+
+                    },
+					"Logon": {
+						caption: "ev_name",
+						},
+					"Logoff": {
+						caption: "ev_name",
+						},
+					"Reconnect": {
+						caption: "ev_name",
+						},
+					"Disconnect": {
+						caption: "ev_name",
+						}
+                },
+
+
+                initial_cypher: "MATCH (p)-[r]->(s)  RETURN p, r, s order by p.timestmp"
+            }
+
+            var viz = new NeoVis.default(config);
+            viz.render();
+        }
+    </script>
+    <body onload="draw()">
+        <div id="viz"></div>
+    </body>
+</html>
