@@ -51,7 +51,7 @@ def parse_evtx(evtx_list):
             sesid = '-'
             srcip = '-'
             logontype = '-'
-            if event_id in [21, 22, 23, 24, 25, 39, 40, 1149, 4624, 4625, 4634, 4647, 4778, 4779]:
+            if event_id in [21, 22, 23, 24, 25, 39, 40, 1149, 4624, 4625, 4647, 4778, 4779]:
                 
                 logtime = node.xpath("/Event/System/TimeCreated")[0].get("SystemTime")
                 logtime = datetime.datetime.strptime(logtime.split(".")[0], "%Y-%m-%d %H:%M:%S")
@@ -109,7 +109,7 @@ def parse_evtx(evtx_list):
                          print('something goes wrong in 1149')
                          print('')
     
-                elif event_id in [4624, 4625, 4634]:
+                elif event_id in [4624, 4625]:
                     try: 
                         for data in event_data:
                             if data.get("Name") in "LogonType" and data.text in ['7', '10']:
@@ -465,13 +465,8 @@ def uploaded_file(filename):
 @app.route('/parse', methods=['GET'])
 def upload1():
     fillbd()
-    return render_template('upload.html')
-
-@app.route('/crgraph1')
-def crgraph1():
     crgraph()
     return render_template('graph.html')
-
 
 if __name__ == '__main__':
     app.run(
@@ -480,4 +475,3 @@ if __name__ == '__main__':
         debug=True
 )
     url_for('static', filename='neovis.js')
-
