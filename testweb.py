@@ -265,23 +265,26 @@ def crgraph():
             nd3 = GRAPH.run("MATCH (Event) where  Event.id in ['21'] and Event.user = '"+user+"' and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' return Event").data()
             nd4 = GRAPH.run("MATCH (Event) where  Event.id in ['22'] and Event.user = '"+user+"' and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' return Event").data()
             #for nnd1 in nd1:
-            n1 = ev1149
-            for nnd3 in nd3:
-                n3 = nnd3.get('Event')
-                sesid = str(n3['session'])
-            for nnd4 in nd4:
-                n4 = nnd4.get('Event')
-            for nnd2 in nd2:
-                n2 = nnd2.get('Event')
-                n1_n2 = Relationship(n1, 'logon', n2)
-                GRAPH.create(n1_n2)
-                n2_n3 = Relationship(n2, 'logon', n3)
-                GRAPH.create(n2_n3)
-            n3_n4 = Relationship(n3, 'logon', n4)
-            GRAPH.create(n3_n4)
-            logev = Node('Logon', ev_name = 'Successful logon', loged_user = user, logon_time = time, src_adress = srcip, session_id = sesid)
-            n4_logev = Relationship(n4, 'logon', logev)
-            GRAPH.create(n4_logev)
+            if nd1 !=[] and nd2 != [] and nd3 !=[] and nd4 != []:
+                n1 = ev1149
+                for nnd3 in nd3:
+                    n3 = nnd3.get('Event')
+                    sesid = str(n3['session'])
+                for nnd4 in nd4:
+                    n4 = nnd4.get('Event')
+                for nnd2 in nd2:
+                    n2 = nnd2.get('Event')
+                    n1_n2 = Relationship(n1, 'logon', n2)
+                    GRAPH.create(n1_n2)
+                    n2_n3 = Relationship(n2, 'logon', n3)
+                    GRAPH.create(n2_n3)
+                n3_n4 = Relationship(n3, 'logon', n4)
+                GRAPH.create(n3_n4)
+                logev = Node('Logon', ev_name = 'Successful logon', loged_user = user, logon_time = time, src_adress = srcip, session_id = sesid)
+                n4_logev = Relationship(n4, 'logon', logev)
+                GRAPH.create(n4_logev)
+            else: 
+                pass
 
         else:
             pass #print("this is not new logon")
@@ -298,24 +301,26 @@ def crgraph():
             nd4 = GRAPH.run("MATCH (Event) where  Event.id in ['40'] and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' and Event.session = '"+sesid+"' return Event").data()
 
             nd5 = GRAPH.run("MATCH (Event) where  Event.id in ['4778'] and Event.user = '"+user+"' and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' return Event").data()
-            for nnd5 in nd5:
-                n5 = nnd5.get('Event') 
-            for nnd2 in nd2:
-                n2 = nnd2.get('Event')
-                n1_n2 = Relationship(n1, 'reconnect', n2)
-                GRAPH.create(n1_n2)
-                n2_n3 = Relationship(n2, 'reconnect', n3)
-                GRAPH.create(n2_n3)
-            for nnd4 in nd4:
-                n4 = nnd4.get('Event')
-                n3_n4 = Relationship(n3, 'reconnect', n4)
-                GRAPH.create(n3_n4)
-                n4_n5 = Relationship(n4, 'reconnect', n5)
-                GRAPH.create(n4_n5)
-            logev = Node('Reconnect', ev_name = 'Successful reconnect', loged_user = user, logon_time = time, src_adress = srcip, session_id = sesid)
-            n5_logev = Relationship(n5, 'reconnect', logev)
-            GRAPH.create(n5_logev)
-     
+            if nd2 != [] and nd3 !=[] and nd4 != [] and nd5 !=[]:
+                for nnd5 in nd5:
+                    n5 = nnd5.get('Event') 
+                for nnd2 in nd2:
+                    n2 = nnd2.get('Event')
+                    n1_n2 = Relationship(n1, 'reconnect', n2)
+                    GRAPH.create(n1_n2)
+                    n2_n3 = Relationship(n2, 'reconnect', n3)
+                    GRAPH.create(n2_n3)
+                for nnd4 in nd4:
+                    n4 = nnd4.get('Event')
+                    n3_n4 = Relationship(n3, 'reconnect', n4)
+                    GRAPH.create(n3_n4)
+                    n4_n5 = Relationship(n4, 'reconnect', n5)
+                    GRAPH.create(n4_n5)
+                logev = Node('Reconnect', ev_name = 'Successful reconnect', loged_user = user, logon_time = time, src_adress = srcip, session_id = sesid)
+                n5_logev = Relationship(n5, 'reconnect', logev)
+                GRAPH.create(n5_logev)
+            else:
+                pass
         else:
             pass
         nd1 = 0
@@ -347,7 +352,7 @@ def crgraph():
             nd2 = check39
             nd3 = GRAPH.run("MATCH (Event) where  Event.id in ['40'] and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' and Event.session = '"+sesid+"' return Event").data()
             nd4 = GRAPH.run("MATCH (Event) where  Event.id in ['4779'] and Event.user = '"+user+"' and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' return Event").data()
-            if nd3 !=[] and nd4 != []:
+            if nd2 !=[] and nd3 !=[] and nd4 != []:
                 for nnd2 in nd2:
                     n3 = nnd2.get('Event')
                 for nnd3 in nd3:
@@ -370,7 +375,7 @@ def crgraph():
             nd3 = check23
             nd2 = GRAPH.run("match (Event) where  Event.id in ['4647'] and Event.user = '"+user+"' and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' return Event").data()
             nd4 = GRAPH.run("MATCH (Event) where  Event.id in ['40'] and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' and Event.session = '"+sesid+"' return Event").data()
-            if nd2 !=[] and nd4 != []:
+            if nd2 !=[] and nd3!=[] and nd4 != []:
                 for nnd2 in nd2:
                     n1 = nnd2.get('Event')
                 for nnd3 in nd3:
