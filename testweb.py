@@ -120,16 +120,22 @@ def parse_evtx(evtx_list):
                                         if username[-1:] not in "$":
                                             username = username.lower()
                                             for data in event_data:
-                                               if data.get("Name") in "TargetDomainName" and data.text is not None:
-                                                 domain = data.text.split(".")[0]
-                                            event_id = str(event_id)
-                                            tmstmp = int(datetime.datetime.timestamp(logtime))
-                                            logtime = str(logtime)
-                                            tmstmp = str(tmstmp)
-                                            node = Node('Event', id = event_id, time = logtime, timestmp = tmstmp, user = username, srcaddress = srcip, session = sesid, logontp = logontype)
-                                            GRAPH.create(node)
+                                                if data.get("Name") in "LogonGuid" and data.text not in ["{00000000-0000-0000-0000-000000000000}"]:
+                                                    #for data in event_data:
+                                                       #if data.get("Name") in "TargetDomainName" and data.text is not None:
+                                                        # domain = data.text.split(".")[0]
+                                                    event_id = str(event_id)
+                                                    tmstmp = int(datetime.datetime.timestamp(logtime))
+                                                    logtime = str(logtime)
+                                                    tmstmp = str(tmstmp)
+                                                    node = Node('Event', id = event_id, time = logtime, timestmp = tmstmp, user = username, srcaddress = srcip, session = sesid, logontp = logontype)
+                                                    GRAPH.create(node)
+                                                else:
+                                                    pass
                                         else:
                                             pass
+                                    else:
+                                        pass
                             else:
                                 pass
                     except:
@@ -337,17 +343,17 @@ def crgraph():
         check39 = GRAPH.run("match (Event) where  Event.id in ['39'] and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' and Event.session = '"+sesid+"' return Event").data()
         check23 = GRAPH.run("match (Event) where  Event.id in ['23'] and Event.user = '"+user+"' and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' return Event").data()
         if check39 != []:
-            n1 = ev24
+            n4 = ev24
             nd2 = check39
             nd3 = GRAPH.run("MATCH (Event) where  Event.id in ['40'] and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' and Event.session = '"+sesid+"' return Event").data()
             nd4 = GRAPH.run("MATCH (Event) where  Event.id in ['4779'] and Event.user = '"+user+"' and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' return Event").data()
             if nd3 !=[] and nd4 != []:
                 for nnd2 in nd2:
-                    n2 = nnd2.get('Event')
+                    n3 = nnd2.get('Event')
                 for nnd3 in nd3:
-                    n3 = nnd3.get('Event')
+                    n2 = nnd3.get('Event')
                 for nnd4 in nd4:
-                    n4 = nnd4.get('Event')
+                    n1 = nnd4.get('Event')
                 n1_n2 = Relationship(n1, 'disconnect', n2)
                 GRAPH.create(n1_n2)
                 n2_n3 = Relationship(n2, 'disconnect', n3)
@@ -360,17 +366,17 @@ def crgraph():
             else:
                 pass
         elif check23 != []:
-            n1 = ev24
+            n4 = ev24
             nd3 = check23
             nd2 = GRAPH.run("match (Event) where  Event.id in ['4647'] and Event.user = '"+user+"' and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' return Event").data()
             nd4 = GRAPH.run("MATCH (Event) where  Event.id in ['40'] and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' and Event.session = '"+sesid+"' return Event").data()
             if nd2 !=[] and nd4 != []:
                 for nnd2 in nd2:
-                    n2 = nnd2.get('Event')
+                    n1 = nnd2.get('Event')
                 for nnd3 in nd3:
-                    n3 = nnd3.get('Event')
+                    n2 = nnd3.get('Event')
                 for nnd4 in nd4:
-                    n4 = nnd4.get('Event')
+                    n3 = nnd4.get('Event')
                 n1_n2 = Relationship(n1, 'logoff', n2)
                 GRAPH.create(n1_n2)
                 n2_n3 = Relationship(n2, 'logoff', n3)
@@ -383,14 +389,14 @@ def crgraph():
             else:
                 pass
         else:
-            n1 = ev24
+            n3 = ev24
             nd2 = GRAPH.run("MATCH (Event) where  Event.id in ['40'] and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' and Event.session = '"+sesid+"' return Event").data()
             nd3 = GRAPH.run("MATCH (Event) where  Event.id in ['4779'] and Event.user = '"+user+"' and Event.timestmp >= '"+starttime+"' and Event.timestmp <= '"+endtime+"' return Event").data()
             if nd3 !=[] and nd2 != []:
                 for nnd2 in nd2:
                     n2 = nnd2.get('Event')
                 for nnd3 in nd3:
-                    n3 = nnd3.get('Event')
+                    n1 = nnd3.get('Event')
                 n1_n2 = Relationship(n1, 'disconnect', n2)
                 GRAPH.create(n1_n2)
                 n2_n3 = Relationship(n2, 'disconnect', n3)
