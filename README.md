@@ -1,4 +1,5 @@
 # Event Visualizer
+## Open-source Framework for Security Event Monitoring Visualization Based on Remote Desktop Protocol-Related Event Logs
 
 http://0.0.0.0:8888/
 
