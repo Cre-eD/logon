@@ -1,4 +1,4 @@
-# Logon Visualizer
+# Event Visualizer
 
 http://0.0.0.0:8888/
 
